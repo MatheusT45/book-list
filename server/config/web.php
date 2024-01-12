@@ -1,5 +1,7 @@
 <?php
 
+use yii\rest\UrlRule;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -13,7 +15,9 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             'cookieValidationKey' => '1qaz2wsx3edc4rfv',
         ],
         'cache' => [
@@ -42,14 +46,13 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => UrlRule::class, 'controller' => 'book'],
             ],
-        ],
-        */
+         ]
     ],
     'params' => $params,
 ];
