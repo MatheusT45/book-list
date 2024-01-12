@@ -14,12 +14,12 @@ class m240112_160455_create_books_table extends Migration
     public function safeUp()
     {
         $this->createTable('books', [
-            'id' => Schema::TYPE_PK,
-            'title' => Schema::TYPE_STRING,
-            'description' => Schema::TYPE_TEXT,
-            'author' => Schema::TYPE_STRING,
-            'total_pages' => Schema::TYPE_INTEGER,
-            'created_at' => Schema::TYPE_INTEGER,
+            'id' => $this->primaryKey(),
+            'title' => $this->string()->notNull(),
+            'description' => $this->text(),
+            'author' => $this->string(),
+            'total_pages' => $this->integer(),
+            'created_at' => $this->integer()->notNull(),
         ]);
     }
 
