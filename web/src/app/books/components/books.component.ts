@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BooksService } from '../services/books.service';
 import { Book } from '../models/book';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-books',
@@ -14,6 +14,10 @@ export class BooksComponent {
   displayedColumns: string[] = ['title', 'author', 'description', 'totalPages'];
 
   constructor(private booksService: BooksService) {
-    this.books$ = this.booksService.list();
+    this.books$ = this.booksService.list().pipe(
+      catchError((error) => {
+        return of([]);
+      })
+    );
   }
 }
