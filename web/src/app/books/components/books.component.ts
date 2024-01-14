@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
   styleUrl: './books.component.scss',
 })
 export class BooksComponent {
-  books: Observable<Book[]>;
+  books$: Observable<Book[]>;
   displayedColumns: string[] = ['title', 'author', 'description', 'totalPages'];
 
   constructor(private booksService: BooksService) {
-    this.books = this.booksService.list();
+    this.books$ = this.booksService.list();
   }
 }
