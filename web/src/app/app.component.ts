@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { AppMaterialModule } from './shared/app-material/app-material.module';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatToolbarModule],
+  imports: [CommonModule, RouterOutlet, AppMaterialModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
