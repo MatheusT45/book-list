@@ -54,7 +54,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE], //TODO: change to STATUS_INACTIVE
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -70,9 +70,11 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        return static::findOne(['access_token'=> $token, 'status' => self::STATUS_ACTIVE]);
+    public static function findIdentityByAccessToken($token, $type = null) {
+        return static::find()
+            ->where(['id' => (string) $token->getClaim('uid') ])
+            ->andWhere(['<>', 'status', self::STATUS_INACTIVE])
+            ->one();
     }
 
     /**
@@ -218,5 +220,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function afterSave($isInsert, $changedOldAttributes) {
+        // Purge the user tokens when the password is changed
+        if (array_key_exists('password', $changedOldAttributes)) {
+            \app\models\UserRefreshToken::deleteAll(['urf_userID' => $this->id]);
+        }
+
+        return parent::afterSave($isInsert, $changedOldAttributes);
     }
 }

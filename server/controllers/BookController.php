@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use app\models\Book;
-use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 class BookController extends ActiveController
 {
+   public $enableCsrfValidation = false;
+
    public $modelClass = Book::class;
 
    public function behaviors()
@@ -15,7 +16,7 @@ class BookController extends ActiveController
       $behaviors = parent::behaviors();
 
       $behaviors['authenticator'] = [
-         'class' => HttpBearerAuth::className(),
+         'class' => \matheust45\jwt\JwtHttpBearerAuth::class,
       ];
 
       return $behaviors;

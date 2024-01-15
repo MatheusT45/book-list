@@ -19,6 +19,7 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
             'cookieValidationKey' => '1qaz2wsx3edc4rfv',
+            'enableCsrfValidation' => false,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -51,8 +52,14 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => UrlRule::class, 'controller' => 'book'],
+                ['class' => UrlRule::class, 'controller' => 'auth'],
             ],
-         ]
+        ],
+        'jwt' => [
+            'class' => \matheust45\jwt\Jwt::class,
+            'key' => 'M5Qi3DSjpV6Hc6HG9IxMqWrr',
+            'jwtValidationData' => \app\components\JwtValidationData::class,
+        ],
     ],
     'params' => $params,
 ];
