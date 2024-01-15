@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-books',
+  selector: 'app-book-list',
   standalone: false,
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
