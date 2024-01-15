@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BooksService } from '../../services/books.service';
 import { Book } from '../../models/book';
-import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-book-list',
@@ -11,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './book-list.component.scss',
 })
 export class BookListComponent {
-  books$: Observable<Book[]>;
   displayedColumns: string[] = [
     'id',
     'title',
@@ -20,13 +21,23 @@ export class BookListComponent {
     'totalPages',
     'actions',
   ];
+  books: Book[];
+
+  dataSource: MatTableDataSource<Book>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private booksService: BooksService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.books$ = this.booksService.list();
+    this.booksService.list().subscribe((books) => {
+      this.books = books;
+      this.dataSource = new MatTableDataSource(this.books);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   onAdd() {
@@ -35,7 +46,12 @@ export class BookListComponent {
 
   onRemove(book: Book) {
     this.booksService.remove(book).subscribe(() => {
-      this.books$ = this.booksService.list();
+      this.booksService.list().subscribe((books) => {
+        this.books = books;
+        this.dataSource = new MatTableDataSource(this.books);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     });
   }
 }
