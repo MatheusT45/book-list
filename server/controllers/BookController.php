@@ -19,14 +19,6 @@ class BookController extends ActiveController
          'class' => \matheust45\jwt\JwtHttpBearerAuth::class,
       ];
 
-      // add CORS filter
-      $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::class,
-      ];
-
-      // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-      $behaviors['authenticator']['except'] = ['options'];
-
       return $behaviors;
    }
 }
