@@ -51,7 +51,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => UrlRule::class, 'controller' => 'book'],
+                ['class' => UrlRule::class, 'controller' => 'book', 'prefix' => 'api'],
                 ['class' => UrlRule::class, 'controller' => 'auth'],
             ],
         ],
@@ -59,6 +59,14 @@ $config = [
             'class' => \matheust45\jwt\Jwt::class,
             'key' => 'M5Qi3DSjpV6Hc6HG9IxMqWrr',
             'jwtValidationData' => \app\components\JwtValidationData::class,
+        ],
+        'cors' => [
+            'class' => \yii\filters\Cors::class,
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+                'Access-Control-Request-Headers' => ['*'],
+            ],
         ],
     ],
     'params' => $params,
