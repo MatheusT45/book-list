@@ -14,7 +14,7 @@ export class SignupFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.form = this.formBuilder.group({
@@ -22,10 +22,14 @@ export class SignupFormComponent {
       email: [null],
       password: [null],
     });
+
+    if (this.authService.isAuthenticated) {
+      this.router.navigate(['books']);
+    }
   }
 
   onSubmit() {
-    this.service.signup(this.form.value).subscribe((response) => {
+    this.authService.signup(this.form.value).subscribe((response) => {
       localStorage.setItem('token', response.token);
       this.router.navigate(['books']);
     });

@@ -16,9 +16,6 @@ export class BooksService {
     return this.httpClient
       .get<Book[]>(this.API, {
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
           Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
       })

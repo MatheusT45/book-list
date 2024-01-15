@@ -14,7 +14,7 @@ export class LoginFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.form = this.formBuilder.group({
@@ -22,13 +22,13 @@ export class LoginFormComponent {
       password: [null],
     });
 
-    if (localStorage.getItem('token')) {
+    if (this.authService.isAuthenticated) {
       this.router.navigate(['books']);
     }
   }
 
   onSubmit() {
-    this.service.login(this.form.value).subscribe((response) => {
+    this.authService.login(this.form.value).subscribe((response) => {
       localStorage.setItem('token', response.token);
       this.router.navigate(['books']);
     });

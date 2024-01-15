@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { AppMaterialModule } from './shared/app-material/app-material.module';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,10 @@ import { AppMaterialModule } from './shared/app-material/app-material.module';
 export class AppComponent {
   title = 'web';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   onLogoutClick() {
-    localStorage.removeItem('token');
-
+    this.authService.logout();
     this.router.navigate(['login']);
   }
 }
