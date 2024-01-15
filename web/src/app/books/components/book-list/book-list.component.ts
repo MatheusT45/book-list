@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class BookListComponent {
   books$: Observable<Book[]>;
   displayedColumns: string[] = [
+    'id',
     'title',
     'author',
     'description',
@@ -30,5 +31,11 @@ export class BookListComponent {
 
   onAdd() {
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  onRemove(book: Book) {
+    this.booksService.remove(book).subscribe(() => {
+      this.books$ = this.booksService.list();
+    });
   }
 }

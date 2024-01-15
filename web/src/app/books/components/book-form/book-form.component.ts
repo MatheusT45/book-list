@@ -27,7 +27,8 @@ export class BookFormComponent {
   }
 
   onSubmit() {
-    this.service.save(this.form.value);
+    this.service.save(this.form.value).subscribe();
+    this.router.navigate(['/'], { relativeTo: this.route });
   }
 
   onCancel() {

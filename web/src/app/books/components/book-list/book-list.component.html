@@ -5,6 +5,11 @@
     </mat-toolbar>
     <div *ngIf="books$ | async as books; else loading">
       <table mat-table [dataSource]="books" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let book">{{ book.id }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef>Title</th>
           <td mat-cell *matCellDef="let book">{{ book.title }}</td>
@@ -44,7 +49,12 @@
             <button mat-icon-button color="accent" aria-label="Edit book">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" aria-label="Delete book">
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Delete book"
+              (click)="onRemove(book)"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>
