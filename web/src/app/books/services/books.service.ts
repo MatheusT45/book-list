@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
 import { HttpClient } from '@angular/common/http';
-import { catchError, delay, first, of } from 'rxjs';
+import { catchError, first, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { catchError, delay, first, of } from 'rxjs';
 export class BooksService {
   private readonly API = 'api/books';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   list() {
     return this.httpClient
@@ -18,15 +19,16 @@ export class BooksService {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization:
-            'Bearer ' +
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6Ik01UWkzRFNqcFY2SGM2SEc5SXhNcVdyciJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLmJvb2tzaGVsZi5jb20iLCJhdWQiOiJodHRwczpcL1wvZnJvbnRlbmQuYm9va3NoZWxmLmNvbSIsImp0aSI6Ik01UWkzRFNqcFY2SGM2SEc5SXhNcVdyciIsImlhdCI6MTcwNTMzNTg4OCwiZXhwIjoxNzA1MzM2MTg4LCJ1aWQiOjl9.3oDqLObP-Bj3myg5UEbQSzrisXEFOr9tSTEXHPfVk34',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
       })
       .pipe(
         first(),
-        delay(1000),
         catchError((error) => {
+          if (error.status === 401) {
+            localStorage.removeItem('token');
+            this.router.navigate(['/login']);
+          }
           console.log(error);
           return of([]);
         })
