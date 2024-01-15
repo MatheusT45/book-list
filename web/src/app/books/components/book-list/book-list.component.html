@@ -35,7 +35,12 @@
           <button mat-icon-button color="primary" aria-label="View book">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button color="accent" aria-label="Edit book">
+          <button
+            mat-icon-button
+            color="accent"
+            aria-label="Edit book"
+            (click)="onEdit(book)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
           <button

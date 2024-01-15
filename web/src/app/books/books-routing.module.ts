@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'new',
     component: BookFormComponent,
   },
+  {
+    path: 'edit/:id',
+    component: BookFormComponent,
+  },
 ];
 
 @NgModule({

@@ -40,7 +40,11 @@ export class BookListComponent {
   }
 
   onRemove(book: Book) {
-    this.booksService.remove(book).subscribe((book) => this.refreshList());
+    this.booksService.remove(book.id).subscribe(() => this.refreshList());
+  }
+
+  onEdit(book: Book) {
+    this.router.navigate(['edit', book.id], { relativeTo: this.route });
   }
 
   private refreshList() {

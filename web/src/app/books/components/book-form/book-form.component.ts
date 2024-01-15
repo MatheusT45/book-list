@@ -22,9 +22,23 @@ export class BookFormComponent {
     private router: Router,
     private route: ActivatedRoute,
     private service: BooksService
-  ) {}
+  ) {
+    if (this.route.snapshot.params['id']) {
+      this.service
+        .get(this.route.snapshot.params['id'])
+        .subscribe((book) => this.form.patchValue(book));
+    }
+  }
 
   onSubmit() {
+    if (this.route.snapshot.params['id']) {
+      this.service
+        .update(this.route.snapshot.params['id'], this.form.value)
+        .subscribe();
+
+      this.router.navigate(['/'], { relativeTo: this.route });
+      return;
+    }
     this.service.save(this.form.value).subscribe();
     this.router.navigate(['/'], { relativeTo: this.route });
   }
