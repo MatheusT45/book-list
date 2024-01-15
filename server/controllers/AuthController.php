@@ -80,11 +80,18 @@ class AuthController extends Controller
     $model = new \app\models\SignupForm();
 
     if ($model->load(Yii::$app->request->getBodyParams(), '') && $model->signup()) {
+      $user = Yii::$app->user->identity;
+
+      $token = $this->generateJwt($user);
+
+      $this->generateRefreshToken($user);
 
       return $this->asJson([
-        'status' => 'ok',
+        'user' => $user,
+        'token' => (string) $token,
       ]);
     } else {
+      Yii::$app->response->statusCode = 400;
       return $this->asJson($model->getFirstErrors());
     }
   }
@@ -105,6 +112,7 @@ class AuthController extends Controller
         'token' => (string) $token,
       ]);
     } else {
+      Yii::$app->response->statusCode = 400;
       return $this->asJson($model->getFirstErrors());
     }
   }
