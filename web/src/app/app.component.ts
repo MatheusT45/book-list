@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { AppMaterialModule } from './shared/app-material/app-material.module';
 
@@ -13,4 +13,12 @@ import { AppMaterialModule } from './shared/app-material/app-material.module';
 })
 export class AppComponent {
   title = 'web';
+
+  constructor(private router: Router) {}
+
+  onLogoutClick() {
+    localStorage.removeItem('token');
+
+    this.router.navigate(['login']);
+  }
 }
