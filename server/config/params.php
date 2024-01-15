@@ -9,6 +9,6 @@ return [
         'issuer' => 'https://api.bookshelf.com',
         'audience' => 'https://frontend.bookshelf.com',
         'id' => 'M5Qi3DSjpV6Hc6HG9IxMqWrr',
-        'expire' => 300,  //the short-lived JWT token is here set to expire after 5 min.
+        'expire' => 60 * 60 * 3,
     ],
 ];
