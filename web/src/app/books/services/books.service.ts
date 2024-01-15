@@ -33,7 +33,7 @@ export class BooksService {
       );
   }
 
-  save(record: Book) {
+  save(record: Partial<Book>) {
     const snakeCasedRecord = camelCaseKeysToUnderscore(record);
     return this.http
       .post<Book>(this.API, snakeCasedRecord, {

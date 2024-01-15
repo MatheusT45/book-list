@@ -10,21 +10,19 @@ import { BooksService } from '../../services/books.service';
   styleUrl: './book-form.component.scss',
 })
 export class BookFormComponent {
-  form: FormGroup;
+  form = this.formBuilder.group({
+    title: [''],
+    author: [''],
+    description: [''],
+    totalPages: [0],
+  });
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private service: BooksService
-  ) {
-    this.form = this.formBuilder.group({
-      title: [null],
-      author: [null],
-      description: [null],
-      totalPages: [null],
-    });
-  }
+  ) {}
 
   onSubmit() {
     this.service.save(this.form.value).subscribe();
