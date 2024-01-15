@@ -32,12 +32,7 @@ export class BookListComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.booksService.list().subscribe((books) => {
-      this.books = books;
-      this.dataSource = new MatTableDataSource(this.books);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.refreshList();
   }
 
   onAdd() {
@@ -45,13 +40,15 @@ export class BookListComponent {
   }
 
   onRemove(book: Book) {
-    this.booksService.remove(book).subscribe(() => {
-      this.booksService.list().subscribe((books) => {
-        this.books = books;
-        this.dataSource = new MatTableDataSource(this.books);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    this.booksService.remove(book).subscribe((book) => this.refreshList());
+  }
+
+  private refreshList() {
+    this.booksService.list().subscribe((books) => {
+      this.books = books;
+      this.dataSource = new MatTableDataSource(this.books);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 }
