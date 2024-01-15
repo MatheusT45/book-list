@@ -41,6 +41,17 @@ class Book extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'id' => 'id',
+            'title' => 'title',
+            'description' => 'description',
+            'author' => 'author',
+            'totalPages' => 'total_pages',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
