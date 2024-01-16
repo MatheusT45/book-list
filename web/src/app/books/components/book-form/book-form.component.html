@@ -1,14 +1,14 @@
 <mat-card>
-  <mat-toolbar> Book Form </mat-toolbar>
+  <mat-toolbar> Livro </mat-toolbar>
   <mat-card-content>
     <form [formGroup]="form">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Book Title</mat-label>
+        <mat-label>Título</mat-label>
         <input matInput placeholder="e.g. Clean Code" formControlName="title" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Author</mat-label>
+        <mat-label>Autor</mat-label>
         <input
           matInput
           placeholder="e.g. Robert C. Martin"
@@ -17,7 +17,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Description</mat-label>
+        <mat-label>Descrição</mat-label>
         <textarea
           matInput
           placeholder="e.g. A Handbook of Agile Software Craftsmanship"
@@ -26,7 +26,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Pages</mat-label>
+        <mat-label>Páginas</mat-label>
         <input
           matInput
           placeholder="e.g. 464"
@@ -37,7 +37,9 @@
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Salvar
+    </button>
+    <button mat-button (click)="onCancel()">Cancelar</button>
   </mat-card-actions>
 </mat-card>

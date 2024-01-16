@@ -1,0 +1,11 @@
+<div *ngIf="!loading" class="container">
+  <div class="weather-city">{{ weather.city }}</div>
+  <img
+    class="{{ !loading ? 'weather-icon' : 'hidden' }}"
+    class="weather-icon"
+    src="{{ iconSvg }}"
+    matTooltip="{{ weather.description }}"
+  />
+
+  <div class="weather-temp">{{ weather.temp }}°C</div>
+</div>

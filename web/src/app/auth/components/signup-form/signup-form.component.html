@@ -1,9 +1,9 @@
 <mat-card>
-  <mat-toolbar> Signup </mat-toolbar>
+  <mat-toolbar> Cadastro </mat-toolbar>
   <mat-card-content>
     <form [formGroup]="form">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Username</mat-label>
+        <mat-label>Nome de usuário</mat-label>
         <input matInput formControlName="username" />
       </mat-form-field>
 
@@ -13,14 +13,14 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
+        <mat-label>Senha</mat-label>
         <input matInput type="password" formControlName="password" />
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="onSubmit()">
-      Signup
+      Cadastrar
     </button>
     <button mat-button (click)="onLoginClick()">Login</button>
   </mat-card-actions>

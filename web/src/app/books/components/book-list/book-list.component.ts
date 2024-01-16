@@ -17,7 +17,6 @@ export class BookListComponent {
     'id',
     'title',
     'author',
-    'description',
     'totalPages',
     'actions',
   ];
