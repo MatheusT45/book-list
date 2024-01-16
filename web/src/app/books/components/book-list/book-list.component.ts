@@ -26,6 +26,13 @@ export class BookListComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  bookSearch: Partial<Book> = {
+    id: null,
+    title: '',
+    author: '',
+    description: '',
+  };
+
   constructor(
     private booksService: BooksService,
     private router: Router,
@@ -57,5 +64,51 @@ export class BookListComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  private searchQuery() {
+    this.booksService
+      .search({
+        ...this.bookSearch,
+      })
+      .subscribe((books) => {
+        this.books = books;
+        this.dataSource = new MatTableDataSource(this.books);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+  }
+
+  onIdSearch(e: any) {
+    this.bookSearch = {
+      ...this.bookSearch,
+      id: parseInt(e.target.value),
+    };
+    this.searchQuery();
+  }
+
+  onTitleSearch(e: any) {
+    this.bookSearch = {
+      ...this.bookSearch,
+      title: e.target.value,
+    };
+
+    this.searchQuery();
+  }
+  onAuthorSearch(e: any) {
+    this.bookSearch = {
+      ...this.bookSearch,
+      author: e.target.value,
+    };
+
+    this.searchQuery();
+  }
+  onDescriptionSearch(e: any) {
+    this.bookSearch = {
+      ...this.bookSearch,
+      description: e.target.value,
+    };
+
+    this.searchQuery();
   }
 }

@@ -47,8 +47,8 @@ php yii migrate
 - confirma'c~ao de login por e-mail
 - esqueceu sua senha
 - server side pagination
-- filtro de livros no frontend (atualmente so e poss'ivel filtrar pelo backend)
 - automatizar processo de instala'c~ao de depen^dencias e migrations do banco
 - Visualioza'c~ao de livros em mosaico (galeria)
+- testes unit'arios
 
 galeria com campos de texto (titulo, autor e descricaoz)

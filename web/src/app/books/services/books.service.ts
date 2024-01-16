@@ -31,6 +31,26 @@ export class BooksService {
       );
   }
 
+  search(book: Partial<Book>): Observable<Book[]> {
+    const { id, title, author, description } = book;
+    const term =
+      `${id ? `&filter[id][in][]=${id}` : ''}` +
+      `${title ? `&filter[title][like]=${title}` : ''}` +
+      `${author ? `&filter[author][like]=${author}` : ''}` +
+      `${description ? `&filter[description][like]=${description}` : ''}`;
+
+    return this.http
+      .get<Book[]>(`${this.API}?sort=id${term}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .pipe(
+        first(),
+        catchError((error) => this.errorCatcher(error))
+      );
+  }
+
   get(id: number): Observable<Book> {
     return this.http
       .get<Book>(`${this.API}/${id}`, {

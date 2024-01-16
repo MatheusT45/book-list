@@ -8,6 +8,33 @@ mat-card {
   text-align: center;
 }
 
+mat-card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+mat-form-field {
+  margin: 0 1em;
+  min-width: 20px;
+}
+
+.book-search-inputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 150px;
+  width: 100%;
+}
+
+.book-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .loading-spinner {
   display: flex;
   justify-content: center;

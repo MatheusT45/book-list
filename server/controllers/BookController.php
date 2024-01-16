@@ -34,9 +34,9 @@ class BookController extends ActiveController
         ],
          'searchModel' => (new DynamicModel(['id', 'title', 'description','author','totalPages']))
             ->addRule(['id'], 'integer')
-            ->addRule(['title'], 'string', ['min' => 2, 'max' => 200])
-            ->addRule(['description'], 'string', ['min' => 2, 'max' => 200])
-            ->addRule(['author'], 'string', ['min' => 2, 'max' => 200])
+            ->addRule(['title'], 'string', ['max' => 200])
+            ->addRule(['description'], 'string', ['max' => 200])
+            ->addRule(['author'], 'string', ['max' => 200])
             ->addRule(['totalPages'], 'integer'),
       ];
       

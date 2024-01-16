@@ -1,33 +1,49 @@
 <mat-card>
-  <mat-card-header>
-    <!-- <input
-      matInput
-      type="text"
-      placeholder="Search"
-      (keyup)="onIdSearch($event.target.value)"
-    />
-    <input
-      matInput
-      type="text"
-      placeholder="Search"
-      (keyup)="onTitleSearch($event.target.value)"
-    />
-    <input
-      matInput
-      type="text"
-      placeholder="Search"
-      (keyup)="onAuthorSearch($event.target.value)"
-    />
-    <input
-      matInput
-      type="text"
-      placeholder="Search"
-      (keyup)="onDescriptionSearch($event.target.value)"
-    /> -->
+  <mat-card-header class="book-search">
+    <mat-card-title>Buscar Livros</mat-card-title>
+    <div class="book-search-inputs">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>ID</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="ID"
+          (keyup)="onIdSearch($event)"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Título"
+          (keyup)="onTitleSearch($event)"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Autor</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Autor"
+          (keyup)="onAuthorSearch($event)"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Descrição"
+          (keyup)="onDescriptionSearch($event)"
+        />
+      </mat-form-field>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <mat-toolbar>
-      <span>Books</span>
+      <span>Livros</span>
     </mat-toolbar>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="id">
