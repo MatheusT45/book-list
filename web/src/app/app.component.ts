@@ -14,7 +14,7 @@ import { WeatherComponent } from './weather/components/weather.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'web';
+  title = 'Bookshelf';
 
   constructor(private router: Router, private authService: AuthService) {}
 
