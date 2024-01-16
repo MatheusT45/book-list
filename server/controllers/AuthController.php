@@ -118,21 +118,19 @@ class AuthController extends Controller
   public function actionRefreshToken() {
     $refreshToken = Yii::$app->request->cookies->getValue('refresh-token', false);
     if (!$refreshToken) {
+      Yii::$app->response->statusCode = 403;
       return new \yii\web\UnauthorizedHttpException('No refresh token found.');
     }
 
     $userRefreshToken = \app\models\UserRefreshToken::findOne(['urf_token' => $refreshToken]);
 
     if (Yii::$app->request->getMethod() == 'POST') {
-      // Getting new JWT after it has expired
       if (!$userRefreshToken) {
+        Yii::$app->response->statusCode = 403;
         return new \yii\web\UnauthorizedHttpException('The refresh token no longer exists.');
       }
 
-      $user = \app\models\User::find()  //adapt this to your needs
-        ->where(['id' => $userRefreshToken->urf_userID])
-        ->andWhere(['not', ['usr_status' => 'inactive']])
-        ->one();
+      $user = \app\models\User::findIdentity($userRefreshToken->urf_userID);
       if (!$user) {
         $userRefreshToken->delete();
         return new \yii\web\UnauthorizedHttpException('The user is inactive.');
@@ -140,10 +138,10 @@ class AuthController extends Controller
 
       $token = $this->generateJwt($user);
 
-      return [
+      return $this->asJson([
         'status' => 'ok',
         'token' => (string) $token,
-      ];
+      ]);
 
     } elseif (Yii::$app->request->getMethod() == 'DELETE') {
       // Logging out
@@ -151,8 +149,9 @@ class AuthController extends Controller
         return new \yii\web\ServerErrorHttpException('Failed to delete the refresh token.');
       }
 
-      return ['status' => 'ok'];
+      return $this->asJson(['status' => 'ok']);
     } else {
+      Yii::$app->response->statusCode = 403;
       return new \yii\web\UnauthorizedHttpException('The user is inactive.');
     }
   }
