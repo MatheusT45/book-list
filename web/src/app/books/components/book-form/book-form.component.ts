@@ -41,13 +41,16 @@ export class BookFormComponent {
     if (this.route.snapshot.params['id']) {
       this.service
         .update(this.route.snapshot.params['id'], this.form.value)
-        .subscribe(() => {
-          this.router.navigate(['/'], { relativeTo: this.route });
+        .subscribe((response) => {
+          if (response !== null)
+            this.router.navigate(['/'], { relativeTo: this.route });
         });
       return;
     }
-    this.service.save(this.form.value).subscribe();
-    this.router.navigate(['/'], { relativeTo: this.route });
+    this.service.save(this.form.value).subscribe((response) => {
+      if (response !== null)
+        this.router.navigate(['/'], { relativeTo: this.route });
+    });
   }
 
   onCancel() {
