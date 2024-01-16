@@ -18,9 +18,9 @@ export class BooksService {
     private _snackBar: MatSnackBar
   ) {}
 
-  list(): Observable<Book[]> {
+  list(perPage = 100, page = 1): Observable<Book[]> {
     return this.http
-      .get<Book[]>(this.API, {
+      .get<Book[]>(`${this.API}?per-page=${perPage}&page=${page}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -40,7 +40,7 @@ export class BooksService {
       `${description ? `&filter[description][like]=${description}` : ''}`;
 
     return this.http
-      .get<Book[]>(`${this.API}?sort=id${term}`, {
+      .get<Book[]>(`${this.API}?per-page=100&sort=id${term}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
