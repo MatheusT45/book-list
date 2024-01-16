@@ -32,7 +32,7 @@ class BookController extends ActiveController
          'attributeMap' => [
             'totalPages' => 'total_pages',
         ],
-         'searchModel' => (new DynamicModel(['id', 'title']))
+         'searchModel' => (new DynamicModel(['id', 'title', 'description','author','totalPages']))
             ->addRule(['id'], 'integer')
             ->addRule(['title'], 'string', ['min' => 2, 'max' => 200])
             ->addRule(['description'], 'string', ['min' => 2, 'max' => 200])

@@ -50,7 +50,6 @@ class AuthController extends Controller
   private function generateRefreshToken(\app\models\User $user, \app\models\User $impersonator = null): \app\models\UserRefreshToken {
     $refreshToken = Yii::$app->security->generateRandomString(200);
 
-    // TODO: Don't always regenerate - you could reuse existing one if user already has one with same IP and user agent
     $userRefreshToken = new \app\models\UserRefreshToken([
       'urf_userID' => $user->id,
       'urf_token' => $refreshToken,
@@ -62,14 +61,13 @@ class AuthController extends Controller
       throw new \yii\web\ServerErrorHttpException('Failed to save the refresh token: '. $userRefreshToken->getErrorSummary(true));
     }
 
-    // Send the refresh-token to the user in a HttpOnly cookie that Javascript can never read and that's limited by path
     Yii::$app->response->cookies->add(new \yii\web\Cookie([
       'name' => 'refresh-token',
       'value' => $refreshToken,
       'httpOnly' => true,
       'sameSite' => 'none',
       'secure' => true,
-      'path' => '/v1/auth/refresh-token',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
+      'path' => '/auth/refresh-token',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
     ]));
 
     return $userRefreshToken;
