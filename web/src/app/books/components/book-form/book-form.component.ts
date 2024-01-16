@@ -1,3 +1,4 @@
+import { AuthService } from './../../../auth/services/auth.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +17,7 @@ export class BookFormComponent {
     title: [''],
     author: [''],
     description: [''],
-    totalPages: [0],
+    totalPages: [],
   });
 
   constructor(
@@ -24,12 +25,15 @@ export class BookFormComponent {
     private router: Router,
     private route: ActivatedRoute,
     private service: BooksService,
-    private _snackBar: MatSnackBar
+    private authService: AuthService
   ) {
     if (this.route.snapshot.params['id']) {
       this.service
         .get(this.route.snapshot.params['id'])
         .subscribe((book) => this.form.patchValue(book));
+    }
+    if (!this.authService.isAuthenticated) {
+      this.router.navigate(['/login']);
     }
   }
 
@@ -38,7 +42,7 @@ export class BookFormComponent {
       this.service
         .update(this.route.snapshot.params['id'], this.form.value)
         .subscribe(() => {
-          // this.router.navigate(['/'], { relativeTo: this.route });
+          this.router.navigate(['/'], { relativeTo: this.route });
         });
       return;
     }
