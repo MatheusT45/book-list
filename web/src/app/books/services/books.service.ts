@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, first, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { camelCaseKeysToUnderscore } from '../../helpers/string.helper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,11 @@ import { camelCaseKeysToUnderscore } from '../../helpers/string.helper';
 export class BooksService {
   private readonly API = 'api/books';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) {}
 
   list(): Observable<Book[]> {
     return this.http
@@ -22,14 +27,7 @@ export class BooksService {
       })
       .pipe(
         first(),
-        catchError((error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-          }
-          console.log(error);
-          return of([]);
-        })
+        catchError((error) => this.errorCatcher(error))
       );
   }
 
@@ -42,14 +40,7 @@ export class BooksService {
       })
       .pipe(
         first(),
-        catchError((error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-          }
-          console.log(error);
-          return of(null);
-        })
+        catchError((error) => this.errorCatcher(error))
       );
   }
 
@@ -63,14 +54,7 @@ export class BooksService {
       })
       .pipe(
         first(),
-        catchError((error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-          }
-          console.log(error);
-          return of(null);
-        })
+        catchError((error) => this.errorCatcher(error))
       );
   }
 
@@ -84,14 +68,7 @@ export class BooksService {
       })
       .pipe(
         first(),
-        catchError((error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-          }
-          console.log(error);
-          return of(null);
-        })
+        catchError((error) => this.errorCatcher(error))
       );
   }
 
@@ -104,14 +81,19 @@ export class BooksService {
       })
       .pipe(
         first(),
-        catchError((error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-          }
-          console.log(error);
-          return of(null);
-        })
+        catchError((error) => this.errorCatcher(error))
       );
+  }
+
+  private errorCatcher(error: any): Observable<null> {
+    this._snackBar.open(
+      error.error.map((e) => e.message),
+      'Close'
+    );
+    if (error.status === 401) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
+    return of(null);
   }
 }

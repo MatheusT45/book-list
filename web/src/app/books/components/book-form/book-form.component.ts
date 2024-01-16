@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BooksService } from '../../services/books.service';
+import { catchError, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-book-form',
@@ -21,7 +23,8 @@ export class BookFormComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private service: BooksService
+    private service: BooksService,
+    private _snackBar: MatSnackBar
   ) {
     if (this.route.snapshot.params['id']) {
       this.service
@@ -34,9 +37,9 @@ export class BookFormComponent {
     if (this.route.snapshot.params['id']) {
       this.service
         .update(this.route.snapshot.params['id'], this.form.value)
-        .subscribe();
-
-      this.router.navigate(['/'], { relativeTo: this.route });
+        .subscribe(() => {
+          // this.router.navigate(['/'], { relativeTo: this.route });
+        });
       return;
     }
     this.service.save(this.form.value).subscribe();
