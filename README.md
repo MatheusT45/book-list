@@ -28,6 +28,12 @@ Rode as migrations do backend dentro do container `server`
 php yii migrate
 ```
 
+Rode as fixtures dentro do container `server` para popular o banco
+
+```
+php yii fixture "Book, User"  --namespace='app\tests\unit\fixtures'
+```
+
 #### Rotas da API
 
 | M'etodos      | Rotas               | Descric'~ao                                     |
@@ -48,7 +54,6 @@ php yii migrate
 - esqueceu sua senha
 - server side pagination
 - automatizar processo de instala'c~ao de depen^dencias e migrations do banco
-- Visualioza'c~ao de livros em mosaico (galeria)
+- Visualioza'c~ao de livros em mosaico (galeria) com capa dos livros
 - testes unit'arios
-
-galeria com campos de texto (titulo, autor e descricaoz)
+- colocar um debounce no filtro de texto no frontend, para evitar v'arias chamadas de uma vez
