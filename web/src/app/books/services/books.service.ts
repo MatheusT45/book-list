@@ -106,14 +106,19 @@ export class BooksService {
   }
 
   private errorCatcher(error: any): Observable<null> {
+    if (error.status === 401) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+
+      this._snackBar.open(error.message, 'Close');
+
+      return of(null);
+    }
+
     this._snackBar.open(
       error.error.map((e) => e.message),
       'Close'
     );
-    if (error.status === 401) {
-      localStorage.removeItem('token');
-      this.router.navigate(['/login']);
-    }
     return of(null);
   }
 }

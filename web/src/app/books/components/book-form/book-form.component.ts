@@ -11,13 +11,13 @@ import { BooksService } from '../../services/books.service';
   styleUrl: './book-form.component.scss',
 })
 export class BookFormComponent {
-  isEditing = this.route.snapshot.url[0].path === 'edit';
+  isViewing = this.route.snapshot.url[0].path === 'details';
 
   form = this.formBuilder.group({
-    title: new FormControl({ value: '', disabled: !this.isEditing }),
-    author: new FormControl({ value: '', disabled: !this.isEditing }),
-    description: new FormControl({ value: '', disabled: !this.isEditing }),
-    totalPages: new FormControl({ value: null, disabled: !this.isEditing }),
+    title: new FormControl({ value: '', disabled: this.isViewing }),
+    author: new FormControl({ value: '', disabled: this.isViewing }),
+    description: new FormControl({ value: '', disabled: this.isViewing }),
+    totalPages: new FormControl({ value: null, disabled: this.isViewing }),
   });
 
   constructor(
