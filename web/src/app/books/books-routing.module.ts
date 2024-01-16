@@ -13,6 +13,10 @@ const routes: Routes = [
     component: BookFormComponent,
   },
   {
+    path: 'details/:id',
+    component: BookFormComponent,
+  },
+  {
     path: 'edit/:id',
     component: BookFormComponent,
   },

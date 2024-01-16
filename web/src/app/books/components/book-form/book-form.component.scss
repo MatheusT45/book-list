@@ -20,3 +20,13 @@ button {
   width: 100%;
   min-width: 150px;
 }
+
+input:disabled {
+  opacity: 1;
+  color: white !important;
+}
+
+textarea:disabled {
+  opacity: 1;
+  color: white !important;
+}

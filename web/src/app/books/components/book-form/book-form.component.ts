@@ -1,10 +1,8 @@
 import { AuthService } from './../../../auth/services/auth.service';
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BooksService } from '../../services/books.service';
-import { catchError, of } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-book-form',
@@ -13,11 +11,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './book-form.component.scss',
 })
 export class BookFormComponent {
+  isEditing = this.route.snapshot.url[0].path === 'edit';
+
   form = this.formBuilder.group({
-    title: [''],
-    author: [''],
-    description: [''],
-    totalPages: [],
+    title: new FormControl({ value: '', disabled: !this.isEditing }),
+    author: new FormControl({ value: '', disabled: !this.isEditing }),
+    description: new FormControl({ value: '', disabled: !this.isEditing }),
+    totalPages: new FormControl({ value: null, disabled: !this.isEditing }),
   });
 
   constructor(

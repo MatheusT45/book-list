@@ -4,7 +4,7 @@ import { Book } from '../../models/book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-book-list',
@@ -44,6 +44,10 @@ export class BookListComponent {
 
   onEdit(book: Book) {
     this.router.navigate(['edit', book.id], { relativeTo: this.route });
+  }
+
+  onView(book: Book) {
+    this.router.navigate(['details', book.id], { relativeTo: this.route });
   }
 
   private refreshList() {
