@@ -1,14 +1,36 @@
 # book-list
 
-## Documentacao
+## Documenta'c~ao
+
+Rode as aplica'c~oes usando docker
 
 ```
 docker compose up
 ```
 
-- pontos futuros
-  - confirmacao de login por e-mail
+Ap'os
+
+Acesse o container do backend
+
+```
+docker exec -it server bash
+```
+
+Instale as depend^encias do projeto dentro do container `server`
+
+```
+composer install
+```
+
+Rode as migrations do backend dentro do container `server`
+
+```
+php yii migrate
+```
+
+- Pontos futuros
+  - confirma'c~ao de login por e-mail
   - esqueceu sua senha
   - server side pagination
-  - filtro de livros no frontend (atualmente so e possivel filtrar pelo backend)
-  - rodar composer install de forma automatica
+  - filtro de livros no frontend (atualmente so e poss'ivel filtrar pelo backend)
+  - automatizar processo de instala'c~ao de depen^dencias e migrations do banco
