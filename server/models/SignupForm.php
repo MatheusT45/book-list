@@ -23,18 +23,18 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'required', 'message' => 'O campo Nome de usuário é obrigatório.'],
+            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Esse nome já está em uso.'],
+            ['username', 'string', 'min' => 2, 'tooShort' => 'O campo Nome de usuário deve conter no mínimo 2 caracteres.'],
 
             ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
+            ['email', 'required', 'message' => 'O campo E-mail é obrigatório.'],
+            ['email', 'email', 'message' => 'E-mail inválido.'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Esse E-mail já está em uso.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 2, 'max' => 255],
+            ['password', 'required', 'message' => 'O campo Senha é obrigatório.'],
+            ['password', 'string', 'min' => 2, 'tooShort' => 'O campo Senha deve conter no mínimo 2 caracteres.'],
         ];
     }
 
