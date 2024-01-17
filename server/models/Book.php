@@ -58,10 +58,10 @@ class Book extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
+            [['title'], 'required', 'message' => 'O campo Título é obrigatório.'],
+            [['title', 'author'], 'string', 'max' => 255, 'tooLong' => 'O campo {attribute} deve conter no máximo 255 caracteres.'],
             [['description'], 'string'],
             [['total_pages', 'created_at'], 'integer'],
-            [['title', 'author'], 'string', 'max' => 255],
         ];
     }
 
