@@ -48,6 +48,12 @@ export class BookListComponent {
   ) {}
 
   ngAfterViewInit() {
+    this.paginator._intl.firstPageLabel = 'Primeira página';
+    this.paginator._intl.itemsPerPageLabel = 'Itens por página';
+    this.paginator._intl.lastPageLabel = 'Última página';
+    this.paginator._intl.nextPageLabel = 'Próxima página';
+    this.paginator._intl.previousPageLabel = 'Página anterior';
+
     this.refreshList();
   }
 
