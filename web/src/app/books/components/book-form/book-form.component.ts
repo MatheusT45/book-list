@@ -20,6 +20,8 @@ export class BookFormComponent {
     totalPages: new FormControl({ value: null, disabled: this.isViewing }),
   });
 
+  bookCreatedTime: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -28,9 +30,10 @@ export class BookFormComponent {
     private authService: AuthService
   ) {
     if (this.route.snapshot.params['id']) {
-      this.service
-        .get(this.route.snapshot.params['id'])
-        .subscribe((book) => this.form.patchValue(book));
+      this.service.get(this.route.snapshot.params['id']).subscribe((book) => {
+        this.form.patchValue(book);
+        this.bookCreatedTime = book.createdAt.toLocaleString();
+      });
     }
     if (!this.authService.isAuthenticated) {
       this.router.navigate(['/login']);

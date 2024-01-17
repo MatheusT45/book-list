@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, catchError, first, of } from 'rxjs';
+import { Observable, catchError, first, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { camelCaseKeysToUnderscore } from '../../helpers/string.helper';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,12 +44,19 @@ export class BooksService {
 
   get(id: number): Observable<Book> {
     return this.http
-      .get<Book>(`${this.API}/${id}`, {
+      .get<Book>(`${this.API}/${id}?expand=createdAt`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
       .pipe(
+        map((book) => {
+          book.createdAt =
+            typeof book.createdAt === 'number'
+              ? new Date(book.createdAt * 1000)
+              : book.createdAt;
+          return book;
+        }),
         first(),
         catchError((error) => this.errorCatcher(error))
       );

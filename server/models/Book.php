@@ -52,6 +52,12 @@ class Book extends \yii\db\ActiveRecord
         ];
     }
 
+
+    public function extraFields()
+    {
+        return ['createdAt' => 'created_at'];
+    }
+
     /**
      * {@inheritdoc}
      */
