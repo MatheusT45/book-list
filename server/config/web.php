@@ -31,11 +31,11 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            'useFileTransport' => true,
-        ],
+        // 'mailer' => [
+        //     'class' => \yii\symfonymailer\Mailer::class,
+        //     'viewPath' => '@app/mail',
+        //     'useFileTransport' => true,
+        // ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

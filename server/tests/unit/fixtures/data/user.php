@@ -13,6 +13,5 @@ return [
         'auth_key' => 'test100key',
         'email' => 'admin@bookshelf.com',
         'created_at' => 0,
-        'updated_at' => 0,
     ],
 ];
