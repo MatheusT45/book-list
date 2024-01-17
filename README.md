@@ -52,8 +52,8 @@ php yii fixture "Book, User"  --namespace='app\tests\unit\fixtures' --interactiv
 Após rodar as fixtures, o usuário admin será criado para acessar a plataforma de primeira.
 
 ```
-username: `admin`
-senha: `admin`.
+username: admin
+senha: admin
 ```
 
 Serão criados também 20 cursos para serem exibidos.
