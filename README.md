@@ -8,31 +8,34 @@ Rode as aplica'c~oes usando docker
 docker compose up
 ```
 
-Ap'os
+Os seguintes comandos podem ser rodados de forma local, ou dentro do container `server` do backend.
 
-Acesse o container do backend
+Caso queira acessar o container, rode o seguinte comando:
 
 ```
 docker exec -it server bash
 ```
 
-Instale as depend^encias do projeto dentro do container `server`
+Para rodar as migrations do backend dentro do container `server`
 
 ```
-composer install
+php yii migrate --interactive=0
 ```
 
-Rode as migrations do backend dentro do container `server`
+Para rodar as fixtures dentro do container `server` para popular o banco
 
 ```
-php yii migrate
+php yii fixture "Book, User"  --namespace='app\tests\unit\fixtures' --interactive=0
 ```
 
-Rode as fixtures dentro do container `server` para popular o banco
+Ap'os rodar as fixtures, o usu'ario admin ser'a criado para acessar a plataforma de primeira.
 
 ```
-php yii fixture "Book, User"  --namespace='app\tests\unit\fixtures'
+username: `admin`
+senha: `admin`.
 ```
+
+Note que ainda 'e poss'ivel criar novos usu'arios na tela de cadastro.
 
 #### Rotas da API
 
