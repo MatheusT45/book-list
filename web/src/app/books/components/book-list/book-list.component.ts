@@ -106,7 +106,6 @@ export class BookListComponent {
     this.booksService
       .list(this.bookSearch, 1, this.paginator.pageSize)
       .subscribe((response) => {
-        console.log(this.paginator, this.paginationData);
         this.paginator.pageIndex = 0;
         this.books = response.body;
         this.dataSource = new MatTableDataSource(this.books);
