@@ -8,4 +8,8 @@ RUN chown -R www:www /app
 
 RUN chmod 755 /app
 
+COPY composer.json ./
+
 USER www
+
+RUN composer install
