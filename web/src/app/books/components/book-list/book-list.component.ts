@@ -4,7 +4,7 @@ import { Book } from '../../models/book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { catchError, map, of, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-book-list',
@@ -22,23 +22,62 @@ export class BookListComponent {
   ];
   books: Book[];
 
-  dataSource: MatTableDataSource<Book>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<Book> = new MatTableDataSource<Book>([]);
+  @ViewChild('paginator') paginator: MatPaginator;
 
-  bookSearch: Partial<Book> = {
+  bookSearch = {
     id: null,
     title: '',
     author: '',
     description: '',
   };
 
+  paginationData = {
+    currentPage: 0,
+    totalData: 0,
+    totalPages: 0,
+    pageSize: 0,
+  };
+
+  pageSizes = [3, 5, 10, 20];
+
   constructor(
     private booksService: BooksService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
+  ) {}
+
+  ngAfterViewInit() {
     this.refreshList();
+  }
+
+  private refreshList() {
+    this.dataSource.paginator = this.paginator;
+
+    this.paginator.page
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.booksService
+            .list(
+              this.bookSearch,
+              this.paginator.pageIndex + 1,
+              this.paginator.pageSize
+            )
+            .pipe(catchError(() => of(null)));
+        }),
+        map((response) => {
+          if (response == null) return [];
+          this.paginationData.totalData = parseInt(
+            response.headers.get('X-Pagination-Total-Count')
+          );
+          return response.body;
+        })
+      )
+      .subscribe((response) => {
+        this.books = response;
+        this.dataSource = new MatTableDataSource(this.books);
+      });
   }
 
   onAdd() {
@@ -57,58 +96,26 @@ export class BookListComponent {
     this.router.navigate(['details', book.id], { relativeTo: this.route });
   }
 
-  private refreshList() {
-    this.booksService.list().subscribe((books) => {
-      this.books = books;
-      this.dataSource = new MatTableDataSource(this.books);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-  }
-
   private searchQuery() {
     this.booksService
-      .search({
-        ...this.bookSearch,
-      })
-      .subscribe((books) => {
-        this.books = books;
+      .list(this.bookSearch, 1, this.paginator.pageSize)
+      .subscribe((response) => {
+        console.log(this.paginator, this.paginationData);
+        this.paginator.pageIndex = 0;
+        this.books = response.body;
         this.dataSource = new MatTableDataSource(this.books);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.paginationData.totalData = parseInt(
+          response.headers.get('X-Pagination-Total-Count')
+        );
       });
   }
 
-  onIdSearch(e: any) {
+  onSearch(e: any) {
     this.bookSearch = {
       ...this.bookSearch,
-      id: parseInt(e.target.value),
-    };
-    this.searchQuery();
-  }
-
-  onTitleSearch(e: any) {
-    this.bookSearch = {
-      ...this.bookSearch,
-      title: e.target.value,
     };
 
-    this.searchQuery();
-  }
-  onAuthorSearch(e: any) {
-    this.bookSearch = {
-      ...this.bookSearch,
-      author: e.target.value,
-    };
-
-    this.searchQuery();
-  }
-  onDescriptionSearch(e: any) {
-    this.bookSearch = {
-      ...this.bookSearch,
-      description: e.target.value,
-    };
-
+    this.bookSearch[e.target.name] = e.target.value;
     this.searchQuery();
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, first, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { camelCaseKeysToUnderscore } from '../../helpers/string.helper';
@@ -18,21 +18,8 @@ export class BooksService {
     private _snackBar: MatSnackBar
   ) {}
 
-  list(perPage = 100, page = 1): Observable<Book[]> {
-    return this.http
-      .get<Book[]>(`${this.API}?per-page=${perPage}&page=${page}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      .pipe(
-        first(),
-        catchError((error) => this.errorCatcher(error))
-      );
-  }
-
-  search(book: Partial<Book>): Observable<Book[]> {
-    const { id, title, author, description } = book;
+  list(bookSearch, page = 1, perPage = 3): Observable<HttpResponse<Book[]>> {
+    const { id, title, author, description, order } = bookSearch;
     const term =
       `${id ? `&filter[id][in][]=${id}` : ''}` +
       `${title ? `&filter[title][like]=${title}` : ''}` +
@@ -40,11 +27,15 @@ export class BooksService {
       `${description ? `&filter[description][like]=${description}` : ''}`;
 
     return this.http
-      .get<Book[]>(`${this.API}?per-page=100&sort=id${term}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+      .get<Book[]>(
+        `${this.API}?page=${page}&per-page=${perPage}&sort=id${term}`,
+        {
+          observe: 'response',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .pipe(
         first(),
         catchError((error) => this.errorCatcher(error))
