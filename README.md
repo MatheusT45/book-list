@@ -1,5 +1,9 @@
 # book-list
 
+Sobre o desafio:
+
+Tive que criar dois pacotes por conta de problemas de compatibilidade das bibliotecas de JWT dispon'iveis com a vers~ao 8.1 do PHP.
+
 ## Documenta'c~ao
 
 Rode as aplica'c~oes usando docker
@@ -60,3 +64,4 @@ Note que ainda 'e poss'ivel criar novos usu'arios na tela de cadastro.
 - Visualioza'c~ao de livros em mosaico (galeria) com capa dos livros
 - testes unit'arios
 - colocar um debounce no filtro de texto no frontend, para evitar v'arias chamadas de uma vez
+- localiza'c~ao (internacionaliza'c~ao)
